@@ -62,8 +62,29 @@ public class SinglyLinkedList {
             return;
         }
 
-        System.out.println(head.data + " deleted");
+        System.out.println(head.data + " deleted from head");
         head = head.next;
+    }
+
+    public void delete_position(int pos) {
+        if(head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+
+        if(pos == 1) {
+            delete_head();
+            return;
+        }
+
+        Node temp = head;
+        for(int i=1; temp != null && i<pos-1; i++) {        //Traversing
+            temp = temp.next;
+        }
+
+        System.out.println(temp.next.data + " deleted from position " + pos);
+        temp.next = temp.next.next;
+
     }
 
     public void delete_tail() {
@@ -72,8 +93,36 @@ public class SinglyLinkedList {
             return;
         }
 
-        System.out.println(head.data + " deleted");
-        head = head.next;
+        Node temp = head;
+        while(temp.next.next != null) {
+            temp = temp.next;
+        }
+
+        System.out.println(temp.next.data + " deleted from tail");
+        temp.next = null;
+        tail = temp;
+    }
+
+    public void update_pos(int pos, int new_data) {
+        if(pos == 0) {
+            System.out.println("Invalid Position");
+            return;
+        }
+
+        if(pos == 1) {
+            insert_head(new_data);
+            return;
+        }
+
+        Node temp = head;
+        for(int i=1; temp != null && i<pos-1; i++) {        //Traversing
+            temp = temp.next;
+        }
+
+        Node new_Node = new Node(new_data);
+        new_Node.next = temp.next;
+        temp.next = new_Node;
+        System.out.println(new_data + " updated at position " + pos);
     }
 
     public void print() {
@@ -98,7 +147,7 @@ public class SinglyLinkedList {
         int value;
         int position;
 
-        while(choice != 8) {
+        while(choice != 9) {
             System.out.println("\nOptions --");
             System.out.println("--------------");
             System.out.println("1. Insert at Start");
@@ -107,8 +156,9 @@ public class SinglyLinkedList {
             System.out.println("4. Delete at Start");
             System.out.println("5. Delete at a position");
             System.out.println("6. Delete at Tail");
-            System.out.println("7. Display");
-            System.out.println("8. Exit");
+            System.out.println("7. Update at a position");
+            System.out.println("8. Display");
+            System.out.println("9. Exit");
 
             System.out.print("\nEnter your choice: ");
             choice = sc.nextInt();
@@ -141,7 +191,7 @@ public class SinglyLinkedList {
                 case 5:
                     System.out.print("Enter position: ");
                     position = sc.nextInt();
-                    LL.delete_pos(position);
+                    LL.delete_position(position);
                     break;
 
                 case 6:
@@ -149,10 +199,18 @@ public class SinglyLinkedList {
                     break;
 
                 case 7:
-                    LL.print();
+                    System.out.print("Enter position: ");
+                    position = sc.nextInt();
+                    System.out.print("Enter new data: ");
+                    value = sc.nextInt();
+                    LL.update_pos(position, value);
                     break;
 
                 case 8:
+                    LL.print();
+                    break;
+
+                case 9:
                     System.out.println("Exiting...");
                     break;
 
