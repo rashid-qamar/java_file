@@ -1,52 +1,55 @@
 import java.util.*;
 
-class LinkedList {
-
-    public Node head;
-    int top;
-
-    LinkedList() {
-        top = -1;
-    }
-
-    public class Node {
+class Node {
         int data;
         Node next;
 
-        Node(int val) {
-            data = val;
-            next = null;
+        Node(int val, Node top) {
+            this.data = val;
+            this.next = top;
         }
+    }
+
+class LinkedListStack {
+
+    private Node top;
+
+    LinkedListStack() {
+        top = null;
+    }
+
+    void push(int data) {
+        top = new Node(data, top);
+        System.out.println(data + " pushed !!");
     }
 
     boolean isEmpty() {
-        return (top == -1);
+        return (top == null);
     }
 
-    void ins_head(int new_data) {
-        Node new_Node = new Node(new_data);
-        new_Node.next = head;
-        head = new_Node;
-        System.out.println(new_data + " pushed");
-        top++;
-    }
-
-    void del_head() {
+    void pop() {
         if(isEmpty()) {
-            System.out.println("List is empty");
+            System.out.println("Stack is empty !!");
             return;
         }
-        System.out.println(head.data + " poped");
-        head = head.next;
-        top--;
+        System.out.println(top.data + " popped !!");
+        top = top.next;
+    }
+
+    void peek() {
+        if(isEmpty()) {
+            System.out.println("Stack is empty !!");
+            return;
+        }
+        System.out.println(top.data + " peek element ");
     }
 
     void display() {
         if(isEmpty()) {
-            System.out.println("List is empty");
+            System.out.println("Stack is empty !!");
             return;
         }
-        Node temp = head;
+        Node temp = top;
         System.out.println("List:");
         while(temp != null) {
             System.out.print(temp.data + " -> ");
@@ -56,22 +59,23 @@ class LinkedList {
     }
 }
 
-public class Stack {
+public class StackConstructor {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        LinkedList LL = new LinkedList();
+        LinkedListStack LL = new LinkedListStack();
         int choice = 0;
         int data;
 
-        while(choice != 4) {
+        while(choice != 5) {
             System.out.println("\nOptions:");
             System.out.println("------------");
             System.out.println("1. Push");
             System.out.println("2. Pop");
-            System.out.println("3. Display");
-            System.out.println("4. Exit");
+            System.out.println("3. Peek");
+            System.out.println("4. Display");
+            System.out.println("5. Exit");
 
             System.out.print("\nEnter choice: ");
             choice = sc.nextInt();
@@ -80,18 +84,22 @@ public class Stack {
                 case 1:
                     System.out.print("Enter data: ");
                     data = sc.nextInt();
-                    LL.ins_head(data);
+                    LL.push(data);
                     break;
 
                 case 2:
-                    LL.del_head();
+                    LL.pop();
                     break;
 
                 case 3:
-                    LL.display();
+                    LL.peek();
                     break;
 
                 case 4:
+                    LL.display();
+                    break;
+
+                case 5:
                     System.out.println("Exiting...");
                     break;
 
